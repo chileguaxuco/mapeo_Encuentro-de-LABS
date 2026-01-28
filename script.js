@@ -1,15 +1,10 @@
-// Inicializar el mapa centrado en América Latina
-var map = L.map('map').setView([-10, -60], 3); // Coordenadas aproximadas para América Latina
-
-// Agregar capa de tiles
+var map = L.map('map').setView([-10, -60], 3); 
 L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
 }).addTo(map);
 
-// Array para almacenar datos de laboratorios
 let labs = [];
 
-// Cargar y parsear el CSV
 fetch('data.csv')
     .then(response => response.text())
     .then(data => {
@@ -40,14 +35,12 @@ fetch('data.csv')
                         const imagen = row.Imagen || '';
                         const flickr = row.Flickr || '';
 
-                        // Almacenar datos en array
                         labs.push({
                             nombre, ciudad, pais, descripcion, fechaComienzo,
                             paginaWeb, instagram, facebook, twitter, spotify, linkedin, tiktok, twitch, youtube,
                             representante, cargoRepresentante, semblanza, imagen, flickr
                         });
 
-                        // Crear popup con título clickable
                         let popupContent = '';
                         if (imagen) {
                             popupContent += `<img src="${imagen}" alt="${nombre}" style="width:100px; height:auto;"><br>`;
@@ -64,7 +57,6 @@ fetch('data.csv')
     })
     .catch(error => console.error('Error cargando el CSV:', error));
 
-// Función para mostrar información completa del laboratorio
 function showLabInfo(index) {
     const lab = labs[index];
     const labInfoDiv = document.getElementById('lab-info');
